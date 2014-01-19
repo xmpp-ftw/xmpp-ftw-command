@@ -3,9 +3,10 @@
 /* jshint -W030 */
 
 var Command = require('../../index')
-  , helper = require('../helper')
-  , JID    = require('node-xmpp-core').JID
-  , Disco  = require('xmpp-ftw-disco')
+  , helper  = require('../helper')
+  , JID     = require('node-xmpp-core').JID
+  , Disco   = require('xmpp-ftw-disco')
+  , should  = require('should')
 
 describe('List commands', function() {
 
@@ -93,5 +94,40 @@ describe('List commands', function() {
             done()
         })
         socket.send('xmpp.command.list', {}, function() {})
+    })
+
+    it('Handles error response', function(done) {
+        xmpp.once('stanza', function() {
+            manager.makeCallback(helper.getStanza('iq-error'))
+        })
+        var callback = function(error, success) {
+            should.not.exist(success)
+            error.should.eql({
+                type: 'cancel',
+                condition: 'error-condition'
+            })
+            done()
+        }
+        socket.send('xmpp.command.list', {}, callback)
+    })
+
+    it('Returns expected data', function(done) {
+        xmpp.once('stanza', function() {
+            manager.makeCallback(helper.getStanza('command-list'))
+        })
+        var callback = function(error, data) {
+            should.not.exist(error)
+            data.length.should.equal(6)
+            data[0].should.eql({
+                jid: 'responder@domain',
+                node: 'list',
+                name: 'List Service Configurations'
+            })
+            data[1].jid.should.equal('responder@domain')
+            data[1].name.should.equal('Configure Service')
+            data[1].node.should.equal('config')
+            done()
+        }
+        socket.send('xmpp.command.list', {}, callback)
     })
 })
