@@ -4,6 +4,8 @@ var ltx = require('ltx')
   , fs = require('fs')
   , Event = require('events').EventEmitter
 
+require('should')
+
 exports.getStanza = function(file) {
     var stanza = fs.readFileSync(__dirname + '/resources/' + file)
     var stanzaStr = stanza.toString()

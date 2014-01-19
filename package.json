@@ -30,7 +30,8 @@
   },
   "dependencies": {
     "ltx": "~0.3.3",
-    "xmpp-ftw": "~1.0.0"
+    "xmpp-ftw": "~1.0.0",
+    "xmpp-ftw-disco": "~1.0.0"
   },
   "devDependencies": {
     "mocha": "~1.8.1",
@@ -38,7 +39,8 @@
     "xmpp-ftw": "*",
     "grunt-contrib-jshint": "~0.7.2",
     "grunt": "~0.4.2",
-    "grunt-mocha-cli": "~1.4.0"
+    "grunt-mocha-cli": "~1.4.0",
+    "node-xmpp-core": "~0.3.1"
   },
   "peerDependencies": {
     "xmpp-ftw": "1.x"

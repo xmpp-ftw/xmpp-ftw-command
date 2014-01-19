@@ -2,8 +2,7 @@
 
 /* jshint -W030 */
 
-var should = require('should')
-  , Command = require('../../index')
+var Command = require('../../index')
   , ltx    = require('ltx')
   , helper = require('../helper')
 
@@ -24,6 +23,11 @@ describe('Commands', function() {
             },
             makeCallback: function(error, data) {
                 this.callback(error, data)
+            },
+            fullJid: {
+                local: 'user',
+                domain: 'example.com',
+                resource: 'laptop'
             },
             _getLogger: function() {
                 return {
