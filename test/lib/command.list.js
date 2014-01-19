@@ -119,11 +119,10 @@ describe('List commands', function() {
             should.not.exist(error)
             data.length.should.equal(6)
             data[0].should.eql({
-                jid: 'responder@domain',
                 node: 'list',
                 name: 'List Service Configurations'
             })
-            data[1].jid.should.equal('responder@domain')
+            should.not.exist(data[1].jid)
             data[1].name.should.equal('Configure Service')
             data[1].node.should.equal('config')
             done()
