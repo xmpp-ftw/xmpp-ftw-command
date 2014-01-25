@@ -1,0 +1,11 @@
+<iq type='result' from='responder@domain' to='requester@domain' id='exec1'>
+  <command xmlns='http://jabber.org/protocol/commands'
+           sessionid='list:20020923T213616Z-700'
+           node='list'
+           status='completed'>
+    <x xmlns='jabber:x:oob'>
+        <url>http://www.jabber.org/do-something</url>
+        <desc>Go here, do stuff</desc>
+    </x>
+  </command>
+</iq>

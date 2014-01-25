@@ -73,10 +73,10 @@ describe('List commands', function() {
     })
 
     it('Sends expected stanza', function(done) {
-        var request = { of: 'xmpp.org' }
+        var request = { to: 'xmpp.org' }
         xmpp.once('stanza', function(stanza) {
             stanza.is('iq').should.be.true
-            stanza.attrs.to.should.equal(request.of)
+            stanza.attrs.to.should.equal('xmpp.org')
             stanza.attrs.type.should.equal('get')
             var query = stanza.getChild('query', Disco.prototype.NS_ITEMS)
             query.should.exist
@@ -86,7 +86,7 @@ describe('List commands', function() {
         socket.send('xmpp.command.list', request, function() {})
     })
 
-    it('Sets \'of\' to local server if not provided', function(done) {
+    it('Sets \'to\' to local server if not provided', function(done) {
         xmpp.once('stanza', function(stanza) {
             stanza.is('iq').should.be.true
             stanza.attrs.to

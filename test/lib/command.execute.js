@@ -5,11 +5,9 @@
 var Command = require('../../index')
   , helper  = require('../helper')
   , JID     = require('node-xmpp-core').JID
-  , Disco   = require('xmpp-ftw-disco')
   , should  = require('should')
-  , dataForms = require('xmpp-ftw').utils['xep-0004']
 
-describe('Get info on a command', function() {
+describe('Execute commands', function() {
 
     var command, socket, xmpp, manager
 
@@ -56,7 +54,7 @@ describe('Get info on a command', function() {
             xmpp.removeAllListeners('stanza')
             done()
         })
-        socket.send('xmpp.command.info', {})
+        socket.send('xmpp.command.execute', {})
     })
 
     it('Errors when non-function callback provided', function(done) {
@@ -70,48 +68,47 @@ describe('Get info on a command', function() {
             xmpp.removeAllListeners('stanza')
             done()
         })
-        socket.send('xmpp.command.info', {}, true)
+        socket.send('xmpp.command.execute', {}, true)
     })
 
-    it('Errors if \'node\' key not provided', function(done) {
+    it('Errors if missing \'node\' key', function(done) {
         xmpp.once('stanza', function() {
-            done('Unexpected outgoing stanza')
+            done('Unexpcted outgoing stanza')
         })
-        var callback = function(error) {
-            error.should.exist
+        var callback = function(error, data) {
+            should.not.exist(data)
             error.type.should.equal('modify')
             error.condition.should.equal('client-error')
             error.description.should.equal('Missing \'node\' key')
             xmpp.removeAllListeners('stanza')
             done()
-
         }
-        socket.send('xmpp.command.info', {}, callback)
+        socket.send('xmpp.command.execute', {}, callback)
     })
 
-    it('Sends expected stanza', function(done) {
-        var request = { to: 'xmpp.org', node: 'config' }
+    it('Sends expected simple stanza', function(done) {
+        var request = { to: 'xmpp.org', node: 'list' }
         xmpp.once('stanza', function(stanza) {
             stanza.is('iq').should.be.true
             stanza.attrs.to.should.equal('xmpp.org')
-            stanza.attrs.type.should.equal('get')
+            stanza.attrs.type.should.equal('set')
             stanza.attrs.id.should.exist
-            var query = stanza.getChild('query', Disco.prototype.NS_INFO)
-            query.should.exist
-            query.attrs.node.should.equal('config')
+            var cmd = stanza.getChild('command', command.NS)
+            cmd.should.exist
+            cmd.attrs.node.should.equal('list')
+            cmd.attrs.action.should.equal('execute')
             done()
         })
-        socket.send('xmpp.command.info', request, function() {})
+        socket.send('xmpp.command.execute', request, function() {})
     })
 
-    it('Sets \'of\' to local server if not provided', function(done) {
+    it('Sets \'to\' to local server if not provided', function(done) {
+        var request = { node: 'list' }
         xmpp.once('stanza', function(stanza) {
-            stanza.is('iq').should.be.true
-            stanza.attrs.to
-                .should.equal(manager.fullJid.getDomain())
+            stanza.attrs.to.should.equal('example.com')
             done()
         })
-        socket.send('xmpp.command.info', { node: 'config' }, function() {})
+        socket.send('xmpp.command.execute', request, function() {})
     })
 
     it('Handles error response', function(done) {
@@ -126,31 +123,19 @@ describe('Get info on a command', function() {
             })
             done()
         }
-        socket.send('xmpp.command.info', { node: 'config' }, callback)
+        socket.send('xmpp.command.execute', { node: 'config' }, callback)
     })
 
-    it('Returns expected data', function(done) {
-        xmpp.once('stanza', function() {
-            manager.makeCallback(helper.getStanza('command-info'))
+    describe('Single stage results', function() {
+
+        it.skip('Handles data form response', function(done) {
+            done('Incomplete')
         })
-        var callback = function(error, data) {
-            should.not.exist(error)
-            data.should.exist
 
-            data[0].kind.should.equal('identity')
-            data[0].type.should.equal('command-node')
-            data[0].name.should.equal('Configure Service')
-            data[0].category.should.equal('automation')
+        it.skip('Handles OOB response', function(done) {
+            done('Incomplete')
+        })
 
-            data[1].kind.should.equal('feature')
-            data[1].var.should.equal(command.NS)
-
-            data[2].kind.should.equal('feature')
-            data[2].var.should.equal(dataForms.NS)
-
-            done()
-        }
-        socket.send('xmpp.command.info', { node: 'config' }, callback)
     })
 
 })
