@@ -6,6 +6,7 @@ var Command = require('../../index')
   , helper  = require('../helper')
   , JID     = require('node-xmpp-core').JID
   , ltx     = require('ltx')
+  , should  = require('should')
 
 describe('Incoming commands', function() {
 
@@ -65,6 +66,21 @@ describe('Incoming commands', function() {
     it('Handles expected incoming message stanza', function() {
         var stanza = helper.getStanza('incoming')
         command.handles(stanza).should.be.true
+    })
+
+    it('Returns expected data', function(done) {
+        socket.on('xmpp.command.list', function(data) {
+            data.length.should.equal(6)
+            data[0].should.eql({
+                node: 'list',
+                name: 'List Service Configurations'
+            })
+            should.not.exist(data[1].jid)
+            data[1].name.should.equal('Configure Service')
+            data[1].node.should.equal('config')
+            done()
+        })
+        command.handle(helper.getStanza('incoming')).should.be.true
     })
 
 })
