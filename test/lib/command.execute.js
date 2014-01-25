@@ -138,6 +138,7 @@ describe('Execute commands', function() {
                 should.not.exist(error)
                 data.status.should.equal('completed')
                 data.form.should.exist
+                should.not.exist(data.oob)
                 data.form.title.should.equal('Available Services')
                 data.form.reported.length.should.equal(5)
                 data.form.items.length.should.equal(3)
@@ -147,8 +148,22 @@ describe('Execute commands', function() {
             socket.send('xmpp.command.execute', { node: 'config' }, callback)
         })
 
-        it.skip('Handles OOB response', function(done) {
-            done('Incomplete')
+        it('Handles OOB response', function(done) {
+            xmpp.once('stanza', function() {
+                manager.makeCallback(
+                    helper.getStanza('result-execute-oob')
+                )
+            })
+            var callback = function(error, data) {
+                should.not.exist(error)
+                data.status.should.equal('completed')
+                should.not.exist(data.form)
+                data.oob.should.exist
+                data.oob.url.should.equal('http://www.jabber.org/do-something')
+                data.oob.description.should.equal('Go here, do stuff')
+                done()
+            }
+            socket.send('xmpp.command.execute', { node: 'config' }, callback)
         })
 
     })
