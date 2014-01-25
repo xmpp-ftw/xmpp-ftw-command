@@ -7,6 +7,7 @@ var Command = require('../../index')
   , JID     = require('node-xmpp-core').JID
   , Disco   = require('xmpp-ftw-disco')
   , should  = require('should')
+  , dataForms = require('xmpp-ftw').utils['xep-0004']
 
 describe('Get info on a command', function() {
 
@@ -134,7 +135,19 @@ describe('Get info on a command', function() {
         var callback = function(error, data) {
             should.not.exist(error)
             data.should.exist
-            done('Incomplete')
+
+            data[0].kind.should.equal('identity')
+            data[0].type.should.equal('command-node')
+            data[0].name.should.equal('Configure Service')
+            data[0].category.should.equal('automation')
+
+            data[1].kind.should.equal('feature')
+            data[1].var.should.equal(command.NS)
+
+            data[2].kind.should.equal('feature')
+            data[2].var.should.equal(dataForms.NS)
+
+            done()
         }
         socket.send('xmpp.command.info', { node: 'config' }, callback)
     })
