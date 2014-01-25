@@ -3,7 +3,6 @@
 /* jshint -W030 */
 
 var Command = require('../../index')
-  , ltx    = require('ltx')
   , helper = require('../helper')
 
 describe('Commands', function() {
@@ -46,14 +45,6 @@ describe('Commands', function() {
         socket.removeAllListeners()
         xmpp.removeAllListeners()
         command.init(manager)
-    })
-
-    describe('Handles', function() {
-
-        it('Returns false by default', function() {
-            command.handles(ltx.parse('<message/>')).should.be.false
-        })
-
     })
 
     describe('Command', function() {

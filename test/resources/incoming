@@ -1,0 +1,24 @@
+<message from='responder@domain' to='requester@domain'>
+  <subject>Service Controls</subject>
+  <query xmlns='http://jabber.org/protocol/disco#items'
+         node='http://jabber.org/protocol/commands'>
+    <item jid='responder@domain'
+          node='list'
+          name='List Service Configurations'/>
+    <item jid='responder@domain'
+          node='config'
+          name='Configure Service'/>
+    <item jid='responder@domain'
+          node='reset'
+          name='Reset Service Configuration'/>
+    <item jid='responder@domain'
+          node='start'
+          name='Start Service'/>
+    <item jid='responder@domain'
+          node='stop'
+          name='Stop Service'/>
+    <item jid='responder@domain'
+          node='restart'
+          name='Restart Service'/>
+  </query>
+</message>
