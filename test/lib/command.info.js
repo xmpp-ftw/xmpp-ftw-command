@@ -127,4 +127,16 @@ describe('Get info on a command', function() {
         socket.send('xmpp.command.info', { node: 'config' }, callback)
     })
 
+    it('Returns expected data', function(done) {
+        xmpp.once('stanza', function() {
+            manager.makeCallback(helper.getStanza('command-info'))
+        })
+        var callback = function(error, data) {
+            should.not.exist(error)
+            data.should.exist
+            done('Incomplete')
+        }
+        socket.send('xmpp.command.info', { node: 'config' }, callback)
+    })
+
 })
