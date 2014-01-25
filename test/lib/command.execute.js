@@ -126,6 +126,15 @@ describe('Execute commands', function() {
         socket.send('xmpp.command.execute', { node: 'config' }, callback)
     })
 
+    it('Allows different actions', function(done) {
+        var request = { node: 'list', action: 'prev' }
+        xmpp.once('stanza', function(stanza) {
+            stanza.getChild('command').attrs.action.should.equal(request.action)
+            done()
+        })
+        socket.send('xmpp.command.execute', request, function() {})
+    })
+
     describe('Single stage results', function() {
 
         it('Handles data form response', function(done) {
@@ -161,6 +170,44 @@ describe('Execute commands', function() {
                 data.oob.should.exist
                 data.oob.url.should.equal('http://www.jabber.org/do-something')
                 data.oob.description.should.equal('Go here, do stuff')
+                done()
+            }
+            socket.send('xmpp.command.execute', { node: 'config' }, callback)
+        })
+
+    })
+
+    describe('Multiple stage results', function() {
+
+        it('Handles \'actions\'', function(done) {
+            xmpp.once('stanza', function() {
+                manager.makeCallback(
+                    helper.getStanza('actions')
+                )
+            })
+            var callback = function(error, data) {
+                should.not.exist(error)
+                data.actions.should.exist
+                data.actions.execute.should.equal('next')
+                data.actions.values.length.should.equal(2)
+                data.actions.values.should.eql([ 'prev', 'next' ])
+                done()
+            }
+            socket.send('xmpp.command.execute', { node: 'config' }, callback)
+        })
+
+        it('Handles \'note\'', function(done) {
+            xmpp.once('stanza', function() {
+                manager.makeCallback(
+                    helper.getStanza('note')
+                )
+            })
+            var callback = function(error, data) {
+                should.not.exist(error)
+                data.note.type.should.equal('info')
+                data.note.description.should.equal(
+                    'Service \'httpd\' has been configured.'
+                )
                 done()
             }
             socket.send('xmpp.command.execute', { node: 'config' }, callback)
