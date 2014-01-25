@@ -54,7 +54,7 @@ describe('Execute commands', function() {
             xmpp.removeAllListeners('stanza')
             done()
         })
-        socket.send('xmpp.command.execute', {})
+        socket.send('xmpp.command.do', {})
     })
 
     it('Errors when non-function callback provided', function(done) {
@@ -68,7 +68,7 @@ describe('Execute commands', function() {
             xmpp.removeAllListeners('stanza')
             done()
         })
-        socket.send('xmpp.command.execute', {}, true)
+        socket.send('xmpp.command.do', {}, true)
     })
 
     it('Errors if missing \'node\' key', function(done) {
@@ -83,7 +83,7 @@ describe('Execute commands', function() {
             xmpp.removeAllListeners('stanza')
             done()
         }
-        socket.send('xmpp.command.execute', {}, callback)
+        socket.send('xmpp.command.do', {}, callback)
     })
 
     it('Sends expected simple stanza', function(done) {
@@ -99,7 +99,7 @@ describe('Execute commands', function() {
             cmd.attrs.action.should.equal('execute')
             done()
         })
-        socket.send('xmpp.command.execute', request, function() {})
+        socket.send('xmpp.command.do', request, function() {})
     })
 
     it('Sets \'to\' to local server if not provided', function(done) {
@@ -108,7 +108,7 @@ describe('Execute commands', function() {
             stanza.attrs.to.should.equal('example.com')
             done()
         })
-        socket.send('xmpp.command.execute', request, function() {})
+        socket.send('xmpp.command.do', request, function() {})
     })
 
     it('Handles error response', function(done) {
@@ -123,7 +123,7 @@ describe('Execute commands', function() {
             })
             done()
         }
-        socket.send('xmpp.command.execute', { node: 'config' }, callback)
+        socket.send('xmpp.command.do', { node: 'config' }, callback)
     })
 
     it('Allows different actions', function(done) {
@@ -132,7 +132,7 @@ describe('Execute commands', function() {
             stanza.getChild('command').attrs.action.should.equal(request.action)
             done()
         })
-        socket.send('xmpp.command.execute', request, function() {})
+        socket.send('xmpp.command.do', request, function() {})
     })
 
     describe('Single stage results', function() {
@@ -154,7 +154,7 @@ describe('Execute commands', function() {
                 data.form.items[0].length.should.equal(5)
                 done()
             }
-            socket.send('xmpp.command.execute', { node: 'config' }, callback)
+            socket.send('xmpp.command.do', { node: 'config' }, callback)
         })
 
         it('Handles OOB response', function(done) {
@@ -172,7 +172,7 @@ describe('Execute commands', function() {
                 data.oob.description.should.equal('Go here, do stuff')
                 done()
             }
-            socket.send('xmpp.command.execute', { node: 'config' }, callback)
+            socket.send('xmpp.command.do', { node: 'config' }, callback)
         })
 
     })
@@ -193,7 +193,7 @@ describe('Execute commands', function() {
                 data.actions.values.should.eql([ 'prev', 'next' ])
                 done()
             }
-            socket.send('xmpp.command.execute', { node: 'config' }, callback)
+            socket.send('xmpp.command.do', { node: 'config' }, callback)
         })
 
         it('Handles \'note\'', function(done) {
@@ -210,7 +210,7 @@ describe('Execute commands', function() {
                 )
                 done()
             }
-            socket.send('xmpp.command.execute', { node: 'config' }, callback)
+            socket.send('xmpp.command.do', { node: 'config' }, callback)
         })
 
     })
