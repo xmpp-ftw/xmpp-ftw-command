@@ -128,8 +128,23 @@ describe('Execute commands', function() {
 
     describe('Single stage results', function() {
 
-        it.skip('Handles data form response', function(done) {
-            done('Incomplete')
+        it('Handles data form response', function(done) {
+            xmpp.once('stanza', function() {
+                manager.makeCallback(
+                    helper.getStanza('result-execute-data-form')
+                )
+            })
+            var callback = function(error, data) {
+                should.not.exist(error)
+                data.status.should.equal('completed')
+                data.form.should.exist
+                data.form.title.should.equal('Available Services')
+                data.form.reported.length.should.equal(5)
+                data.form.items.length.should.equal(3)
+                data.form.items[0].length.should.equal(5)
+                done()
+            }
+            socket.send('xmpp.command.execute', { node: 'config' }, callback)
         })
 
         it.skip('Handles OOB response', function(done) {
