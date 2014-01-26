@@ -6,6 +6,7 @@ var Command = require('../../index')
   , helper  = require('../helper')
   , JID     = require('node-xmpp-core').JID
   , should  = require('should')
+  , dataForm = require('xmpp-ftw').utils['xep-0004']
 
 describe('Execute commands', function() {
 
@@ -211,6 +212,28 @@ describe('Execute commands', function() {
                 done()
             }
             socket.send('xmpp.command.do', { node: 'config' }, callback)
+        })
+
+        it('Adds data form as expected', function(done) {
+            var request = {
+                node: 'config',
+                form: [
+                    { label: 'user', type: 'string', value: 'true' }
+                ]
+            }
+            xmpp.once('stanza', function(stanza) {
+                var x = stanza.getChild('command').getChild('x', dataForm.NS)
+                x.should.exist
+                x.attrs.type.should.equal('submit')
+                var fields = x.getChildren('field')
+                fields.length.should.equal(request.form.length)
+                fields[0].attrs.label.should.equal(request.form[0].label)
+                fields[0].attrs.type.should.equal(request.form[0].type)
+                fields[0].getChildText('value')
+                    .should.equal(request.form[0].value)
+                done()
+            })
+            socket.send('xmpp.command.do', request, function() {})
         })
 
     })
