@@ -1,0 +1,8 @@
+<iq type='result' from='responder@domain' to='requester@domain' id='exec3'>
+  <command xmlns='http://jabber.org/protocol/commands'
+           sessionid='config:20020923T213616Z-700'
+           node='config'
+           status='completed'>
+    <note type='info'>Service 'httpd' has been configured.</note>
+  </command>
+</iq>
