@@ -1,6 +1,6 @@
 {
   "name": "xmpp-ftw-command",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ad-hoc commands (XEP-0050) plugin for XMPP-FTW",
   "main": "index.js",
   "directories": {
