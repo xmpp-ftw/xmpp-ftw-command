@@ -34,6 +34,7 @@
     "xmpp-ftw-disco": "1.x"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "node-xmpp-core": "~4.2.0",
     "mocha": "~2.3.3",
     "should": "~7.1.1",
@@ -42,6 +43,16 @@
     "grunt-contrib-jshint": "~0.11.3",
     "grunt-mocha-istanbul": "^3.0.1",
     "coveralls": "^2.11.4"
+=======
+    "node-xmpp-core": "~0.3.1",
+    "mocha": "~1.8.1",
+    "should": "~2.0.2",
+    "grunt-mocha-cli": "~1.4.0",
+    "grunt": "~0.4.4",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-mocha-istanbul": "^1.5.0",
+    "coveralls": "^2.10.1"
+>>>>>>> 47911b08f768e9d52a0f56e8564f3b60044a4717
   },
   "peerDependencies": {
     "xmpp-ftw": "1.x"
