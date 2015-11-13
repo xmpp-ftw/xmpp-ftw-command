@@ -239,5 +239,34 @@ describe('Execute commands', function() {
         })
 
     })
+    
+    describe('Session IDs issue#3', function() {
+    
+        it('Includes a session ID in the response', function(done) {
+            xmpp.once('stanza', function() {
+                manager.makeCallback(
+                    helper.getStanza('result-execute-data-form')
+                )
+            })
+            var callback = function(error, data) {
+                should.not.exist(error)
+                data.sessionId.should.equal('list:20020923T213616Z-700')
+                done()
+            }
+            socket.send('xmpp.command.do', { node: 'config' }, callback)
+        })
+        
+        it('Allows user to set a session ID', function(done) {
+            var request = { node: 'config', sessionId: 'list:20020923T213616Z-700' }
+            xmpp.once('stanza', function(stanza) {
+                stanza.getChild('command')
+                    .getAttr('sessionid')
+                    .should.equal(request.sessionId)
+                done()
+            })
+            socket.send('xmpp.command.do', request, function() {})
+        })
+        
+    })
 
 })
