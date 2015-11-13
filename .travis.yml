@@ -1,3 +1,5 @@
+before_install:
+  - npm i -g grunt-cli
 sudo: false
 language: node_js
 
