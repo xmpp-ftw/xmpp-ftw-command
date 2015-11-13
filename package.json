@@ -31,7 +31,7 @@
   "dependencies": {
     "ltx": "2.1.1",
     "xmpp-ftw": "1.x",
-    "xmpp-ftw-disco": "1.3.0"
+    "xmpp-ftw-disco": "1.x"
   },
   "devDependencies": {
     "node-xmpp-core": "~4.2.0",
