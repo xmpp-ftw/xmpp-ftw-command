@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "node-xmpp-core": "~4.2.0",
-    "mocha": "~2.3.3",
+    "mocha": "~2.4.4",
     "should": "~7.1.1",
     "grunt-mocha-cli": "~2.0.0",
     "grunt": "~0.4.4",
