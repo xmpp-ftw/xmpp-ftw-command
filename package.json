@@ -34,7 +34,7 @@
     "xmpp-ftw-disco": "1.x"
   },
   "devDependencies": {
-    "node-xmpp-core": "~4.2.0",
+    "node-xmpp-core": "~5.0.3",
     "mocha": "~2.3.3",
     "should": "~7.1.1",
     "grunt-mocha-cli": "~2.0.0",
