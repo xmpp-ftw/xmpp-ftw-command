@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "ltx": "2.1.1",
-    "xmpp-ftw": "1.x",
+    "xmpp-ftw": "2.0.0",
     "xmpp-ftw-disco": "1.x"
   },
   "devDependencies": {
