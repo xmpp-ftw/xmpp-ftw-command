@@ -1,6 +1,8 @@
 xmpp-ftw-command
 ===================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/xmpp-ftw/xmpp-ftw-command.svg)](https://greenkeeper.io/)
+
 Ad-hoc commands (XEP-0050) plugin for XMPP-FTW.
 
 https://github.com/xmpp-ftw/xmpp-ftw.git
